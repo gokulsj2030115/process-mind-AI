@@ -13,7 +13,7 @@ const Login = () => {
         e.preventDefault();
         setError('');
         try {
-            await login(formData.email, formData.password);
+            await login(formData.email.trim(), formData.password.trim());
             navigate('/admin');
         } catch (err) {
             setError('Invalid credentials');
