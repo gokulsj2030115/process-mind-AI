@@ -107,7 +107,10 @@ Answer the question directly and concisely based ONCE ONLY on the context provid
 exports.getHistory = async (req, res) => {
     try {
         const { state } = req.query;
-        let query = supabase.from('conversations').select('*').order('timestamp', { ascending: false }).limit(50);
+        let query = supabase.from('conversations')
+            .select('id, state, question, corrected_question, answer, timestamp')
+            .order('timestamp', { ascending: false })
+            .limit(50);
 
         if (state) {
             query = query.eq('state', state);

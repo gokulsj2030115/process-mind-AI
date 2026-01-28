@@ -53,22 +53,22 @@ exports.uploadDocument = async (req, res) => {
             .select()
             .single();
 
-        if (error) throw error;
+        // Create a sanitised document object for response
+        const responseData = {
+            id: data.id,
+            state: data.state,
+            file_name: data.file_name,
+            file_type: data.file_type,
+            processed_content: data.processed_content,
+            upload_date: data.upload_date,
+            version: data.version
+        };
 
-        // Cleanup local file (optional, keeping for now as requested)
-        // fs.unlinkSync(filePath); 
-
-        res.status(201).json({ message: 'Document processed successfully', document: data });
+        res.status(201).json({ message: 'Document processed successfully', document: responseData });
 
     } catch (err) {
         console.error("Upload Error Details:", err);
-        // Return full error details to client for debugging
-        res.status(500).json({
-            message: 'Server error during upload',
-            error: err.toString(),
-            stack: err.stack,
-            details: JSON.stringify(err, Object.getOwnPropertyNames(err))
-        });
+        res.status(500).json({ message: 'Server error during upload' });
     }
 };
 
@@ -81,7 +81,7 @@ exports.getDocuments = async (req, res) => {
             query = query.eq('state', state);
         }
 
-        const { data, error } = await query;
+        const { data, error } = await query.select('id, state, file_name, file_type, processed_content, upload_date, version');
         if (error) throw error;
 
         res.json(data);

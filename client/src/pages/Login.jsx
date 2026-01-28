@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 
 const Login = () => {
-    const [formData, setFormData] = useState({ email: 'admin@example.com', password: 'password123' });
+    const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
