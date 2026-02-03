@@ -21,15 +21,12 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/admin"
-              element={
-                <PrivateRoute>
-                  <AdminDashboard />
-                </PrivateRoute>
-              }
-            />
+            {/* Login and Protected Routes removed for public access */}
+            {/* <Route path="/login" element={<Login />} /> */}
+
+            {/* Reuse AdminDashboard as the main Dashboard for everyone */}
+            <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Router>
       </AuthProvider>
