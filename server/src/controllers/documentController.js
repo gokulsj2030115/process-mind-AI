@@ -53,6 +53,15 @@ exports.uploadDocument = async (req, res) => {
             .select()
             .single();
 
+        if (error) {
+            console.error("Supabase Insert Error:", error);
+            return res.status(403).json({ message: 'Database Error: Permission Denied. Check RLS Policies.', details: error });
+        }
+
+        if (!data) {
+            throw new Error("No data returned from insert");
+        }
+
         // Create a sanitised document object for response
         const responseData = {
             id: data.id,
@@ -82,7 +91,11 @@ exports.getDocuments = async (req, res) => {
         }
 
         const { data, error } = await query.select('id, state, file_name, file_type, processed_content, upload_date, version');
-        if (error) throw error;
+
+        if (error) {
+            console.error("Supabase Select Error:", error);
+            return res.status(403).json({ message: 'Database Error: Permission Denied. Check RLS Policies.' });
+        }
 
         res.json(data);
     } catch (err) {
