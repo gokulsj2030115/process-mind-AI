@@ -55,7 +55,12 @@ exports.uploadDocument = async (req, res) => {
 
         if (error) {
             console.error("Supabase Insert Error:", error);
-            return res.status(403).json({ message: 'Database Error: Permission Denied. Check RLS Policies.', details: error });
+            // Return the actual error from Supabase to help debugging (could be RLS, Auth, or Schema)
+            return res.status(500).json({
+                message: error.message || 'Database Error',
+                code: error.code,
+                details: error
+            });
         }
 
         if (!data) {
