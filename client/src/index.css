@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/* Configure Tailwind 4 to use .dark class for dark: utilities */
+@variant dark (&:where(.dark, .dark *));
+
+.dark {
+  color-scheme: dark;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 transition-colors duration-200;
+  }
+
+  /* Robust fallback for body background */
+  .dark body {
+    @apply bg-gray-900 text-gray-100;
+  }
+}
+
+@layer base {
+
+  /* Additional dark mode refinements for common elements */
+  .dark select,
+  .dark input,
+  .dark textarea {
+    @apply bg-gray-800 border-gray-700 text-white focus:ring-indigo-500 focus:border-indigo-500;
+  }
+
+  .dark .bg-white {
+    @apply bg-gray-800;
+  }
+
+  .dark .text-gray-900 {
+    @apply text-white;
+  }
+
+  .dark .text-gray-700 {
+    @apply text-gray-300;
+  }
+
+  .dark .text-gray-600 {
+    @apply text-gray-400;
+  }
+}
